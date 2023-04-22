@@ -1,0 +1,21 @@
+FROM spark:latest
+
+USER hadoop
+WORKDIR /usr/local/hadoop/etc/hadoop
+COPY ./hadoop.etc.hadoop/* ./
+RUN sudo chown hadoop:hadoop ./* && \
+    sudo chmod +x ./* && \
+    sudo dos2unix *.sh
+
+USER spark
+WORKDIR /usr/local/spark/conf
+COPY ./spark.conf/* ./
+RUN sudo chown spark:spark ./* && \
+    sudo chmod +x ./* && \
+    sudo dos2unix *.sh
+
+USER root
+WORKDIR /
+COPY ./etc.profile.d/env.sh /etc/profile.d/
+RUN chown root:root /etc/profile.d/env.sh && \
+    dos2unix /etc/profile.d/env.sh

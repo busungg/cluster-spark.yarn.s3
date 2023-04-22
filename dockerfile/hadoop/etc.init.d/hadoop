@@ -1,0 +1,37 @@
+#!/bin/bash
+#
+# hadoop: Start/Stop Hadoop daemons.
+#
+# chkconfig: - 85 15
+# description: Start or stop the Hadoop distributed filesystem daemons \
+#              and secondary daemons.
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Get function from functions library
+start() {
+  su - hadoop -c "/usr/local/hadoop/sbin/start-all.sh"
+}
+
+stop() {
+  su - hadoop -c "/usr/local/hadoop/sbin/stop-all.sh"
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    stop
+    start
+    ;;
+  *)
+    echo $"Usage: $0 {start|stop|restart}"
+    exit 1
+esac
+
+exit 0

@@ -1,0 +1,8 @@
+cluster:
+  driver: bridge
+  ipam:
+    driver: default
+    config:
+      - subnet: 192.168.0.0/24
+        ip_range: 192.168.0.10/24
+        gateway: 192.168.0.1

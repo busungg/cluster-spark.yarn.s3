@@ -1,0 +1,4 @@
+- name: "up"
+  desc: "This command will make docker-compose.yml with config options to dist folder and run docker compose up -d -f ./dist"
+- name: "down"
+  desc: "This command will run docker compose down"

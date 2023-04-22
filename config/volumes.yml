@@ -1,0 +1,4 @@
+hadoop.ssh:
+  external: true
+spark.ssh:
+  external: true

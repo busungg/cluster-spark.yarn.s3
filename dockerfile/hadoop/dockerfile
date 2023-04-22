@@ -1,0 +1,27 @@
+FROM server:latest
+
+# add hadoop user
+USER root
+ARG hadoop_passwd=hadoop
+RUN useradd hadoop && \
+    echo ${hadoop_passwd} | passwd hadoop --stdin && \
+    usermod -aG wheel hadoop && \
+    # allow sudo without password
+    echo 'hadoop ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/hadoop
+
+#install hadoop 3.3.4
+WORKDIR /usr/local
+RUN wget --no-check-certificate -O hadoop.tar.gz https://dlcdn.apache.org/hadoop/common/hadoop-3.3.4/hadoop-3.3.4.tar.gz
+RUN tar xvf hadoop.tar.gz && \
+    rm -f hadoop.tar.gz && \
+    mv hadoop-3.3.4 hadoop && \
+    chown -R hadoop:hadoop ./hadoop
+
+WORKDIR /etc/init.d
+COPY ./etc.init.d/hadoop ./
+RUN chown root:root ./hadoop && \
+    chmod +x ./hadoop && \
+    chkconfig --add hadoop && \
+    chkconfig --level 345 hadoop on
+
+EXPOSE 8088 9870

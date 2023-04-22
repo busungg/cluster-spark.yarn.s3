@@ -1,0 +1,23 @@
+FROM oraclelinux:8
+
+USER root
+RUN echo 'sslverify=0' >> /etc/yum.conf
+RUN yum update -y && \
+    yum install -y sudo \
+        net-tools \
+        wget \
+        tar \
+        openssh \
+        nano \
+        dos2unix \
+        java-1.8.0-openjdk-devel.x86_64 \
+        hostname \
+        python38-pip
+
+# set sshd
+RUN systemctl enable sshd
+
+# set logs for applications
+RUN mkdir -p apps/log && \
+    mkdir -p apps/tmp && \
+    chmod -R 777 apps
